@@ -5,21 +5,10 @@ import (
 	"os"
 )
 
-func main() {
-	log.Println("dfdfdf")
-	log.SetFlags(log.Ldate | log.Ltime | log.LUTC | log.Lshortfile)
-
+func Logger() *log.Logger {
 	const logFilePath = "apiLog.log"
-	//file, _ := os.Create(logFilePath)
-	file, err := os.Create(logFilePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	file, _ := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logger := log.New(file, "", log.Ldate|log.Ltime|log.LUTC|log.Lshortfile)
 
-	log.SetOutput(file)
-
-	log.Println("loging in file")
-	file.Close()
+	return logger
 }
-
